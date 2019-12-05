@@ -385,39 +385,6 @@ pkg.generate(libglib,
   description : 'C Utility Library',
 )
 
-# On Windows, glib needs a spawn helper for g_spawn* API
-if host_system == 'windows'
-  if host_machine.cpu_family() == 'x86'
-    executable('gspawn-win32-helper', 'gspawn-win32-helper.c',
-      install : true,
-      gui_app : true,
-      include_directories : configinc,
-      dependencies : [libglib_dep])
-    executable('gspawn-win32-helper-console', 'gspawn-win32-helper.c',
-      install : true,
-      c_args : ['-DHELPER_CONSOLE'],
-      include_directories : configinc,
-      dependencies : [libglib_dep])
-  else
-    executable('gspawn-win64-helper', 'gspawn-win32-helper.c',
-      install : true,
-      gui_app : true,
-      include_directories : configinc,
-      dependencies : [libglib_dep])
-    executable('gspawn-win64-helper-console', 'gspawn-win32-helper.c',
-      install : true,
-      c_args : ['-DHELPER_CONSOLE'],
-      include_directories : configinc,
-      dependencies : [libglib_dep])
-  endif
-else
-  gtester = executable('gtester', 'gtester.c',
-    install : true,
-    c_args : ['-UG_DISABLE_ASSERT'],
-    include_directories : configinc,
-    dependencies : [libglib_dep])
-endif
-
 report_conf = configuration_data()
 report_conf.set('GLIB_VERSION', glib_version)
 report_conf.set('PYTHON', python_name)
